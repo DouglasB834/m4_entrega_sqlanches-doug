@@ -30,11 +30,17 @@ VALUES
 -- Leitura
 
 -- 1)
-SELECT DISTINCT c.*, p.*, p2.* FROM 
+SELECT DISTINCT 
+	c.*, p.*, p2.* 
+FROM 
 	produtos_pedidos pp 
-JOIN pedidos p ON pp.pedido_id = p.id 
-JOIN produtos p2 ON pp.produto_id = p2.id 
-JOIN clientes c ON c.id = p.cliente_id WHERE c.id=6
+JOIN 	
+	pedidos AS p ON pp.pedido_id = p.id 
+JOIN 
+	produtos AS p2 ON pp.produto_id = p2.id 
+JOIN 
+	clientes AS c ON c.id = p.cliente_id 
+WHERE c.id=6
 ;
 
 
@@ -42,14 +48,21 @@ JOIN clientes c ON c.id = p.cliente_id WHERE c.id=6
 -- Atualização
 
 -- 1)
-UPDATE clientes
-SET lealdade = 
-(SELECT  sum(p2.pts_de_lealdade)  FROM 
+UPDATE 
+	clientes
+SET 
+	lealdade = 
+(SELECT  sum(p2.pts_de_lealdade)  
+FROM 
 	produtos_pedidos pp 
-JOIN pedidos p ON pp.pedido_id = p.id 
-JOIN produtos p2 ON pp.produto_id = p2.id 
-JOIN clientes c ON c.id = p.cliente_id WHERE c.nome = 'Georgia' )
-WHERE clientes.nome=  'Georgia' ;
+JOIN 
+	pedidos AS p ON pp.pedido_id = p.id 
+JOIN 
+	produtos AS p2 ON pp.produto_id = p2.id 
+JOIN 
+	clientes AS c ON c.id = p.cliente_id WHERE c.nome = 'Georgia' )
+WHERE clientes.nome=  'Georgia'
+RETURNING *;
 
 
 -- Deleção
